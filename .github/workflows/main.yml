@@ -3,7 +3,7 @@ name: Pytest and pre-commit
 on: [pull_request]
 
 jobs:
-  test:
+  pytest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
