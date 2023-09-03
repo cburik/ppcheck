@@ -22,7 +22,7 @@ class Account(Base):
     @classmethod
     def create_account(cls, account_name: str, username: str, url: str, password: str) -> Self:
         hashed_password = cls.calculate_hash(password)
-        row_hash = cls.calculate_hash(";".join([account_name, username, url, hashed_password]))
+        row_hash = cls.calculate_hash(";".join([account_name, username, url]))
         return Account(
             account_name=account_name, username=username, url=url, hashed_password=hashed_password, row_hash=row_hash
         )
