@@ -6,6 +6,7 @@ from pwned_password_checker.constants import DB_LOC
 
 
 def get_engine(location: str = DB_LOC) -> Engine:
+    # TODO: fix me, yielding doesn't work like this
     engine = create_engine(f"sqlite:///{location}")
     yield engine
     engine.dispose()
