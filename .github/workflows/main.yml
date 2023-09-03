@@ -1,6 +1,6 @@
 name: Pytest and pre-commit
 
-on: [pull_request]
+on: [push]
 
 jobs:
   pytest:
