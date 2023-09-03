@@ -14,4 +14,4 @@ def test_account_create_account():
     assert account.url == "https://github.com"
 
     assert account.hashed_password == Account.calculate_hash("p@ssw0rd")
-    assert account.row_hash == Account.calculate_hash(f"github;user123;https://github.com")
+    assert account.row_hash == Account.calculate_hash("github;user123;https://github.com")
