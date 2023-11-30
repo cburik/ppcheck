@@ -1,8 +1,8 @@
-from sqlalchemy import Engine
+from sqlalchemy import Engine, create_engine
 
 from pwned_password_checker.constants import DB_LOC
 from pwned_password_checker.models import Base
-from pwned_password_checker.utils import get_engine, remove_file
+from pwned_password_checker.utils import remove_file
 
 
 def create_database(engine: Engine):
@@ -10,8 +10,9 @@ def create_database(engine: Engine):
 
 
 def install(location: str = DB_LOC):
-    engine = get_engine(location)
+    engine = create_engine(f"sqlite:///{location}")
     create_database(engine)
+    engine.dispose()
 
 
 def uninstall(location: str = DB_LOC):
