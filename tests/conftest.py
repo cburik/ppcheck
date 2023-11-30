@@ -1,7 +1,9 @@
 from pytest import fixture
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 
 from pwned_password_checker.install import create_database
-from pwned_password_checker.utils import create_engine, remove_file
+from pwned_password_checker.utils import remove_file
 
 TMP_DB_LOC = "./tmp_database.db"
 
@@ -12,3 +14,10 @@ def engine_with_empty_database():
     create_database(engine)
     yield engine
     remove_file(TMP_DB_LOC)
+
+
+@fixture
+def session_with_empty_database(engine_with_empty_database):
+    session = Session(engine_with_empty_database)
+    yield session
+    session.close()
