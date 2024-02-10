@@ -1,7 +1,7 @@
 from mock import Mock, patch
 from pytest import fixture
 
-from pwned_password_checker.api import get_password_results
+from pwned_password_checker.api import ApiManager
 
 
 @fixture
@@ -22,7 +22,7 @@ def mocked_request_result():
 def test_get_password_result_appears_in_api_result(mocked_get, mocked_request_result):
     mocked_get.return_value = mocked_request_result
 
-    result = get_password_results("21BD10018A45C4D1DEF81644B54AB7F969B88D65")
+    result = ApiManager.get_password_results("21BD10018A45C4D1DEF81644B54AB7F969B88D65")
     assert result == 3
 
 
@@ -30,5 +30,5 @@ def test_get_password_result_appears_in_api_result(mocked_get, mocked_request_re
 def test_get_password_result_does_not_appear_in_api_result(mocked_get, mocked_request_result):
     mocked_get.return_value = mocked_request_result
 
-    result = get_password_results("21BD10018A45C4D1DEF81644B54AB7F969B8aewf")
+    result = ApiManager.get_password_results("21BD10018A45C4D1DEF81644B54AB7F969B8aewf")
     assert result == 0
