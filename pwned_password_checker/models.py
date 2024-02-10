@@ -20,12 +20,16 @@ class Account(Base):
     row_hash: Mapped[str]
 
     @classmethod
-    def create_account(cls, account_name: str, username: str, url: str, password: str) -> Self:
+    def create_account(
+        cls, account_name: str, password: str, username: Optional[str] = None, url: Optional[str] = None
+    ) -> Self:
+        _username = username if username else ""
+        _url = url if url else ""
         hashed_password = cls.calculate_hash(password)
-        row_hash = cls.calculate_hash(";".join([account_name, username, url, hashed_password]))
+        row_hash = cls.calculate_hash(";".join([account_name, _username, _url, hashed_password]))
         return Account(
             account_name=account_name, username=username, url=url, hashed_password=hashed_password, row_hash=row_hash
-        )
+        )  # type: ignore
 
     @classmethod
     def calculate_hash(cls, password: str) -> str:
