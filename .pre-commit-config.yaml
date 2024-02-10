@@ -35,3 +35,4 @@ repos:
     hooks:
     - id: mypy
       files: pwned_password_checker/
+      additional_dependencies: ['types-requests', 'pandas-stubs']

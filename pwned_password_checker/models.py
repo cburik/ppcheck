@@ -25,7 +25,7 @@ class Account(Base):
         row_hash = cls.calculate_hash(";".join([account_name, username, url, hashed_password]))
         return Account(
             account_name=account_name, username=username, url=url, hashed_password=hashed_password, row_hash=row_hash
-        )
+        )  # type: ignore
 
     @classmethod
     def calculate_hash(cls, password: str) -> str:
