@@ -1,6 +1,7 @@
 black==23.*
 flake8
 isort
+jupyter
 mock==5.1.0
 mypy
 pre-commit==3.*
