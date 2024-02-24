@@ -23,7 +23,7 @@ class CsvExtractor:
                 password=row.password,
                 username=row.username,
                 url=row.url,
-            )
+            )  # type: ignore
             for row in passwords_dataframe.itertuples()
         ]
         return self.accounts
