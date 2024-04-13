@@ -3,6 +3,7 @@ from datetime import datetime
 from functools import lru_cache
 from typing import List, Optional
 
+import pandas as pd
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 from typing_extensions import Self
 
@@ -50,12 +51,25 @@ class Account(Base):
         return sha1.hexdigest()
 
     @classmethod
-    def get_all(cls, session: Session) -> List[Self]:
-        return session.query(cls).all()
+    def _to_dataframe(cls, accounts: List[Self]) -> pd.DataFrame:
+        accounts_dict = [account.__dict__ for account in accounts]
+        for account in accounts_dict:
+            account.pop("_sa_instance_state", None)
+        return pd.DataFrame.from_records(accounts_dict)
 
     @classmethod
-    def get_all_current(cls, session: Session) -> List[Self]:
-        return session.query(cls).filter(cls.is_current).all()
+    def get_all(cls, session: Session, as_dataframe=False) -> List[Self]:
+        accounts = session.query(cls).all()
+        if as_dataframe:
+            return cls._to_dataframe(accounts)
+        return accounts
+
+    @classmethod
+    def get_all_current(cls, session: Session, as_dataframe=False) -> List[Self]:
+        accounts = session.query(cls).filter(cls.is_current).all()
+        if as_dataframe:
+            return cls._to_dataframe(accounts)
+        return accounts
 
     @classmethod
     def add_to_database(cls, session: Session, accounts=List[Self]) -> None:
