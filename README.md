@@ -4,12 +4,7 @@
 - Add more to the loader
     - add partial update (i.e. only add, don't deactivate)
 
-- Add API to check passwords
-    - only active (default)
-    - all
+- Replace setup.py w/ toml
+    - add entry
 
-- Add CLI
-    - install
-    - uninstall
-    - add (full and partial)
-    - check
+- rename
