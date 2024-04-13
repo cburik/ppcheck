@@ -7,4 +7,4 @@
 - Replace setup.py w/ toml
     - add entry
 
-- rename
+- Add logging
