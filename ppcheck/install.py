@@ -2,9 +2,9 @@ from pathlib import Path
 
 from sqlalchemy import Engine, create_engine
 
-from pwned_password_checker.constants import DB_LOC
-from pwned_password_checker.models import Base
-from pwned_password_checker.utils import remove_file
+from ppcheck.constants import DB_LOC
+from ppcheck.models import Base
+from ppcheck.utils import remove_file
 
 
 def create_database(engine: Engine):

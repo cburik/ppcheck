@@ -1,7 +1,7 @@
 from mock import Mock, patch
 from pytest import fixture
 
-from pwned_password_checker.api import ApiManager
+from ppcheck.api import ApiManager
 
 
 @fixture

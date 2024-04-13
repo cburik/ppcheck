@@ -3,11 +3,11 @@ from argparse import OPTIONAL, ArgumentParser
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from pwned_password_checker.api import ApiManager
-from pwned_password_checker.constants import DB_LOC
-from pwned_password_checker.extractor import CsvExtractor
-from pwned_password_checker.install import install, uninstall
-from pwned_password_checker.models import Account
+from ppcheck.api import ApiManager
+from ppcheck.constants import DB_LOC
+from ppcheck.extractor import CsvExtractor
+from ppcheck.install import install, uninstall
+from ppcheck.models import Account
 
 
 class PwnedPasswordCheckerCLI:
