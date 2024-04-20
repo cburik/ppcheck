@@ -1,4 +1,4 @@
-from pwned_password_checker.models import Account
+from ppcheck.models import Account
 
 
 def test_account_calculate_hash():

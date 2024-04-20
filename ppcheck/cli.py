@@ -3,14 +3,14 @@ from argparse import OPTIONAL, ArgumentParser
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
-from pwned_password_checker.api import ApiManager
-from pwned_password_checker.constants import DB_LOC
-from pwned_password_checker.extractor import CsvExtractor
-from pwned_password_checker.install import install, uninstall
-from pwned_password_checker.models import Account
+from ppcheck.api import ApiManager
+from ppcheck.constants import DB_LOC
+from ppcheck.extractor import CsvExtractor
+from ppcheck.install import install, uninstall
+from ppcheck.models import Account
 
 
-class PwnedPasswordCheckerCLI:
+class PwnedPasswordChecker:
     def __init__(self):
         self.engine: Engine = create_engine(f"sqlite:///{DB_LOC}")
         self.session: Session = sessionmaker(bind=self.engine)()
@@ -58,5 +58,9 @@ class PwnedPasswordCheckerCLI:
             self._check(args.check)
 
 
+def main():
+    PwnedPasswordChecker().run()
+
+
 if __name__ == "__main__":
-    PwnedPasswordCheckerCLI().run()
+    main()

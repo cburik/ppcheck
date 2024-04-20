@@ -3,7 +3,7 @@ from pathlib import Path
 from conftest import TMP_DB_LOC
 from sqlalchemy import Engine
 
-from pwned_password_checker.models import Account
+from ppcheck.models import Account
 
 
 def test_create_database(engine_with_empty_database: Engine):

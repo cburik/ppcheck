@@ -2,7 +2,7 @@ from typing import List, Optional
 
 import pandas as pd
 
-from pwned_password_checker.models import Account
+from ppcheck.models import Account
 
 
 class CsvExtractor:

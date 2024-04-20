@@ -2,8 +2,8 @@ from pytest import fixture
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 
-from pwned_password_checker.install import create_database
-from pwned_password_checker.utils import remove_file
+from ppcheck.install import create_database
+from ppcheck.utils import remove_file
 
 TMP_DB_LOC = "./tmp_database.db"
 

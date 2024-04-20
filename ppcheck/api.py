@@ -2,7 +2,7 @@ from functools import lru_cache
 
 import requests
 
-from pwned_password_checker.constants import API_URL
+from ppcheck.constants import API_URL
 
 
 class ApiManager:

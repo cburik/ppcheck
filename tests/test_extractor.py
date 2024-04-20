@@ -1,5 +1,5 @@
-from pwned_password_checker.extractor import CsvExtractor
-from pwned_password_checker.models import Account
+from ppcheck.extractor import CsvExtractor
+from ppcheck.models import Account
 
 
 def test_csv_extractor_extract():

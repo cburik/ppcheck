@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["ppcheck"]
+
+[project]
+name = "ppcheck"
+version = "0.0.1"
+readme = "README.md"
+requires-python = ">=3.10.0"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "pandas==2.0.*",
+    "requests==2.31.*",
+    "sqlalchemy==2.0.*",
+]
+
+[project.scripts]
+ppcheck = "ppcheck.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/cburik/ppcheck"
+
+[tool.black]
+line-length = 120
+
+# TODO: Add more tools
