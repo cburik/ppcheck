@@ -18,7 +18,7 @@ def mocked_request_result():
     return mock
 
 
-@patch("pwned_password_checker.api.requests.get")
+@patch("ppcheck.api.requests.get")
 def test_get_password_result_appears_in_api_result(mocked_get, mocked_request_result):
     mocked_get.return_value = mocked_request_result
 
@@ -26,7 +26,7 @@ def test_get_password_result_appears_in_api_result(mocked_get, mocked_request_re
     assert result == 3
 
 
-@patch("pwned_password_checker.api.requests.get")
+@patch("ppcheck.api.requests.get")
 def test_get_password_result_does_not_appear_in_api_result(mocked_get, mocked_request_result):
     mocked_get.return_value = mocked_request_result
 
