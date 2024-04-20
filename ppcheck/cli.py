@@ -10,7 +10,7 @@ from ppcheck.install import install, uninstall
 from ppcheck.models import Account
 
 
-class PwnedPasswordCheckerCLI:
+class PwnedPasswordChecker:
     def __init__(self):
         self.engine: Engine = create_engine(f"sqlite:///{DB_LOC}")
         self.session: Session = sessionmaker(bind=self.engine)()
@@ -59,4 +59,4 @@ class PwnedPasswordCheckerCLI:
 
 
 if __name__ == "__main__":
-    PwnedPasswordCheckerCLI().run()
+    PwnedPasswordChecker().run()
