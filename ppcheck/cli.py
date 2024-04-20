@@ -58,5 +58,9 @@ class PwnedPasswordChecker:
             self._check(args.check)
 
 
-if __name__ == "__main__":
+def main():
     PwnedPasswordChecker().run()
+
+
+if __name__ == "__main__":
+    main()

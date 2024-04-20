@@ -4,7 +4,7 @@ from sqlalchemy import Engine, create_engine
 
 from ppcheck.constants import DB_LOC
 from ppcheck.models import Base
-from ppcheck.utils import remove_file
+from ppcheck.utils import remove_dir, remove_file
 
 
 def create_database(engine: Engine):
@@ -20,6 +20,7 @@ def install(path: Path = DB_LOC):
 
 def uninstall(path: Path = DB_LOC):
     remove_file(path)
+    remove_dir(path.parent)
 
 
 if __name__ == "__main__":

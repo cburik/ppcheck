@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from ppcheck.install import create_database
 from ppcheck.utils import remove_file
 
-TMP_DB_LOC = "./tmp_database.db"
+TMP_DB_LOC = "./tmp/tmp_database.db"
 
 
 @fixture

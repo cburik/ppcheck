@@ -14,6 +14,19 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
+dependencies = [
+    "pandas==2.0.*",
+    "requests==2.31.*",
+    "sqlalchemy==2.0.*",
+]
+
+[project.scripts]
+ppcheck = "ppcheck.cli:main"
 
 [project.urls]
-Homepage = "https://github.com/"
+Homepage = "https://github.com/cburik/ppcheck"
+
+[tool.black]
+line-length = 120
+
+# TODO: Add more tools
