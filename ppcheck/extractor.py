@@ -9,7 +9,7 @@ class CsvExtractor:
     def __init__(
         self,
         path: str,
-        column_order: List[str] = ["account_name", "username", "url", "password"],
+        column_order: List[str] = ["account_name", "url", "username", "password"],
     ):
         self.csv_path: str = path
         self.column_order: List[str] = column_order
@@ -17,6 +17,7 @@ class CsvExtractor:
 
     def extract(self) -> List[Account]:
         passwords_dataframe: pd.DataFrame = pd.read_csv(self.csv_path, header=0, names=self.column_order)
+        passwords_dataframe = passwords_dataframe.fillna("")
         self.accounts = [
             Account.create_account(
                 account_name=row.account_name,
