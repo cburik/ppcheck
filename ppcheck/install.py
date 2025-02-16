@@ -11,7 +11,7 @@ def create_database(engine: Engine):
     Base.metadata.create_all(bind=engine)
 
 
-def install(path: Path = DB_LOC):
+def install(path: Path = DB_LOC):  # TODO: add engine as an argument
     path.parent.mkdir(parents=True, exist_ok=True)
     engine = create_engine(f"sqlite:///{path}")
     create_database(engine)
