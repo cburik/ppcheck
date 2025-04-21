@@ -2,7 +2,7 @@ name: Pytest and pre-commit
 
 on:
   pull_request:
-    types: [opened, reopened]
+    types: [opened, reopened, synchronize]
 
 jobs:
   pytest:

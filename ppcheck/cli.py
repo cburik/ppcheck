@@ -29,6 +29,8 @@ class PwnedPasswordChecker:
             default=None,
             help="Check the database for pwned passwords. Use 'all' to check all accounts, not just current ones",
         )
+        # TODO: add column order as an argument
+        # TODO: add output file as an argument
 
     def _extract(self, path: str) -> None:
         accounts = CsvExtractor(path).extract()
@@ -43,19 +45,20 @@ class PwnedPasswordChecker:
             raise ValueError("Unexpected check type passed to --check")
         api = ApiManager()
         accounts["num_pwned"] = accounts.apply(lambda row: api.get_password_results(row.hashed_password), axis=1)
-        print(accounts)
+        accounts = accounts[accounts["num_pwned"] > 0]
+        accounts.to_csv("pwned_accounts.csv")
 
     def run(self, args=None):
         args = self.parser.parse_args(args)
-        # TODO: make switch statement
+
         if args.install:
-            install()  # TODO: Add engine as an argument
-        if args.uninstall:
-            uninstall()
+            install()  # TODO: make possible to install at different loc
         if args.extract:
             self._extract(args.extract)
         if args.check:
             self._check(args.check)
+        if args.uninstall:
+            uninstall()
 
 
 def main():
