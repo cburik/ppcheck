@@ -1,5 +1,6 @@
 from argparse import OPTIONAL, ArgumentParser
 
+import pandas as pd
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import Session, sessionmaker
 
@@ -36,9 +37,9 @@ class PwnedPasswordChecker:
 
     def _check(self, check_type) -> None:
         if check_type == "all":
-            accounts = Account.get_all(session=self.session, as_dataframe=True)
+            accounts: pd.DataFrame = Account.get_all(session=self.session, as_dataframe=True)
         elif check_type == "current":
-            accounts = Account.get_all_current(session=self.session, as_dataframe=True)
+            accounts: pd.DataFrame = Account.get_all_current(session=self.session, as_dataframe=True)
         else:
             raise ValueError("Unexpected check type passed to --check")
         api = ApiManager()
@@ -46,7 +47,8 @@ class PwnedPasswordChecker:
         print(accounts)
 
     def run(self, args=None):
-        args = self.parser.parse_args(args)
+        if args is None:
+            args = self.parser.parse_args(args)
         # TODO: make switch statement
         if args.install:
             install()  # TODO: Add engine as an argument
