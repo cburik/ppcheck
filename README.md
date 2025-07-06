@@ -17,9 +17,11 @@ Maybe I'll upload this to pypi at some point, so you can pip install it directly
 
 ## Run
 Extract passwords from a csv file:
+
 ``sh
 ppcheck --extract path/to/passwords.csv
 ``
+
 At this moment in time it expects, and can only work with csv's with 4 columns containing account_name, url, username, password, in that order. So export the csv from your password manager, put the columns in that order. Extract it with ppcheck and don't forget to delete the csv from your device again. 
 Extracting it will save hashes of your passwords (not the passwords themselves!) to your home directory. 
 
@@ -32,6 +34,7 @@ Will checks if any of the hashes of the extracted passwords are in the haveibeen
 ``sh
 ppcheck --uninstall
 ``
+
 Removes all local files. But doesn't remove the python package itself. Run `pip uninstall ppcheck` if you want to do that.
 
 ## Contribute
