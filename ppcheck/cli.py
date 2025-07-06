@@ -33,6 +33,8 @@ class PwnedPasswordChecker:
             action="store_true",
             help="Generate a report of the latest pwned passwords found in the database",
         )
+        # TODO: add column order as an argument
+        # TODO: add output file as an argument
 
     def _extract(self, path: str) -> None:
         accounts = CsvExtractor(path).extract()
@@ -106,15 +108,15 @@ class PwnedPasswordChecker:
             args = self.parser.parse_args(args)
         # TODO: make switch statement
         if args.install:
-            install()  # TODO: Add engine as an argument
-        if args.uninstall:
-            uninstall()
+            install()  # TODO: make possible to install at different loc
         if args.extract:
             self._extract(args.extract)
         if args.check:
             self._check(args.check)
         if args.report or args.check:
             self._report()
+        if args.uninstall:
+            uninstall()
 
 
 def main():

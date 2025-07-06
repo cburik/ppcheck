@@ -22,8 +22,6 @@ TODO: ADD ME!
 Honestly, not sure if I'll ever look at pull requests. I have a day job and other hobbies. Feel free to fork and do what you want with it (see [LICENSE](https://github.com/cburik/ppcheck/blob/main/LICENSE)).
 
 # Security
-Is it safe to use? Honestly, I'm not a cyber security expert so I don't know. Read the code and judge for yourself.
-
 ppcheck sends the first 5 characters of your hashed passwords to the [haveibeenpwned API](https://haveibeenpwned.com/API/v2). If you're not comfortable with that, don't use the tool.
 
 ppcheck saves a hash of your passwords in your home directory, if that doesn't feel good to you, don't use the tool.
