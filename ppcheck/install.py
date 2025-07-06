@@ -12,9 +12,8 @@ def create_database(engine: Engine):
 
 def install():
     DB_LOC.parent.mkdir(parents=True, exist_ok=True)
-    engine = PpcheckEngine()
-    create_database(engine)
-    engine.dispose()
+    ppcheck_engine = PpcheckEngine()
+    create_database(ppcheck_engine.engine)
 
 
 def uninstall():

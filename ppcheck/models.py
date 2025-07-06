@@ -1,15 +1,17 @@
 import hashlib
 from datetime import datetime
 from functools import lru_cache
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import pandas as pd
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 from typing_extensions import Self
 
 
 class Base(DeclarativeBase):
-    pass
+    created: Mapped[datetime] = mapped_column(default=datetime.now)
+    updated: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now)
 
 
 class Account(Base):
@@ -23,8 +25,6 @@ class Account(Base):
     record_hash: Mapped[str]
     record_start: Mapped[datetime] = mapped_column(default=datetime.now)
     record_end: Mapped[Optional[datetime]]
-    created: Mapped[datetime] = mapped_column(default=datetime.now)
-    updated: Mapped[datetime] = mapped_column(default=datetime.now, onupdate=datetime.now)
     is_current: Mapped[bool] = mapped_column(default=True)
 
     @classmethod
@@ -58,14 +58,14 @@ class Account(Base):
         return pd.DataFrame.from_records(accounts_dict)
 
     @classmethod
-    def get_all(cls, session: Session, as_dataframe=False) -> List[Self]:
+    def get_all(cls, session: Session, as_dataframe=False) -> Union[List[Self], pd.DataFrame]:
         accounts = session.query(cls).all()
         if as_dataframe:
             return cls._to_dataframe(accounts)
         return accounts
 
     @classmethod
-    def get_all_current(cls, session: Session, as_dataframe=False) -> List[Self]:
+    def get_all_current(cls, session: Session, as_dataframe=False) -> Union[List[Self], pd.DataFrame]:
         accounts = session.query(cls).filter(cls.is_current).all()
         if as_dataframe:
             return cls._to_dataframe(accounts)
@@ -86,3 +86,36 @@ class Account(Base):
         except Exception as exc:
             session.rollback()
             raise exc
+
+
+class Report(Base):
+    __tablename__ = "reports"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    pwned_passwords: Mapped[int]
+    check_type: Mapped[str]  # enum?
+    run_date: Mapped[datetime] = mapped_column(default=datetime.now)
+    is_latest: Mapped[bool] = mapped_column(default=True)
+
+    @classmethod
+    def get_latest(cls, session: Session) -> Self:
+        return session.query(cls).filter(cls.is_latest).first()
+
+    @classmethod
+    def add_report(cls, session: Session, pwned_passwords: int, check_type: str) -> None:
+        latest_report = cls.get_latest(session)
+        if latest_report:
+            latest_report.is_latest = False
+        new_report = cls(pwned_passwords=pwned_passwords, check_type=check_type)
+        session.add(new_report)
+        session.flush()
+        return new_report
+
+
+class PwnedPassword(Base):
+    __tablename__ = "pwned_passwords"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    report_id: Mapped[int] = mapped_column(ForeignKey("reports.id"))
+    account_id: Mapped[int] = mapped_column(ForeignKey("accounts.id"))
+    pwned_count: Mapped[int]
