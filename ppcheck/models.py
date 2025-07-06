@@ -118,4 +118,3 @@ class PwnedPassword(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     report_id: Mapped[int] = mapped_column(ForeignKey("reports.id"))
     account_id: Mapped[int] = mapped_column(ForeignKey("accounts.id"))
-    pwned_count: Mapped[int]

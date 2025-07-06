@@ -60,9 +60,7 @@ class PwnedPasswordChecker:
                     session=session, pwned_passwords=pwned_passwords.shape[0], check_type=check_type
                 )
                 for _, row in pwned_passwords.iterrows():
-                    pwned_password = PwnedPassword(
-                        report_id=report.id, account_id=row["id"], pwned_count=row["pwned_count"]
-                    )
+                    pwned_password = PwnedPassword(report_id=report.id, account_id=row["id"])
                     session.add(pwned_password)
                 session.commit()
 
@@ -71,7 +69,7 @@ class PwnedPasswordChecker:
             latest_report = Report.get_latest(session=session)
             if latest_report:
                 select_stmt = (
-                    select(Account.account_name, Account.username, Account.url, PwnedPassword.pwned_count)
+                    select(Account.account_name, Account.username, Account.url)
                     .select_from(PwnedPassword)
                     .where(PwnedPassword.report_id == latest_report.id)
                     .join(Account, PwnedPassword.account_id == Account.id)
@@ -92,12 +90,12 @@ class PwnedPasswordChecker:
                 print("Pwned Accounts:")
                 print("-" * 120)
                 print(
-                    f"{'Account':<{max_account_name_length}} {'Username':<{max_username_length}} {'Pwned Count':<12} {'URL'}"  # noqa: E501
+                    f"{'Account':<{max_account_name_length}} {'Username':<{max_username_length}} {'URL'}"  # noqa: E501
                 )
                 print("-" * 120)
                 for _, row in pwned_passwords.iterrows():
                     print(
-                        f"{row['account_name']:<{max_account_name_length}} {str(row['username']):<{max_username_length}} {str(row['pwned_count']):<12} {row['url']}"  # noqa: E501
+                        f"{row['account_name']:<{max_account_name_length}} {str(row['username']):<{max_username_length}} {row['url']}"  # noqa: E501
                     )
                 print("-" * 120)
             else:
