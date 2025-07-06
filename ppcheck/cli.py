@@ -82,22 +82,22 @@ class PwnedPasswordChecker:
                 max_account_name_length = pwned_passwords["account_name"].str.len().max() + 2  # Adding 2 for padding
                 max_username_length = pwned_passwords["username"].str.len().max() + 2  # Adding 2 for padding
 
-                print("\n=== Latest Report ===")
+                print(f"\n{'='*53} Latest Report {'='*53}")
                 print(f"Date: {latest_report.run_date}")
                 print(f"Pwned Passwords Found: {latest_report.pwned_passwords}")
                 print(f"Check Type: {latest_report.check_type}")
                 print("\n")
                 print("Pwned Accounts:")
-                print("-" * 70)
+                print("-" * 120)
                 print(
                     f"{'Account':<{max_account_name_length}} {'Username':<{max_username_length}} {'Pwned Count':<12} {'URL'}"  # noqa: E501
                 )
-                print("-" * 70)
+                print("-" * 120)
                 for _, row in pwned_passwords.iterrows():
                     print(
                         f"{row['account_name']:<{max_account_name_length}} {str(row['username']):<{max_username_length}} {str(row['pwned_count']):<12} {row['url']}"  # noqa: E501
                     )
-                print("-" * 70)
+                print("-" * 120)
             else:
                 print("No reports found.")
 
