@@ -1,8 +1,7 @@
-from pathlib import Path
-
-from sqlalchemy import Engine, create_engine
+from sqlalchemy import Engine
 
 from ppcheck.constants import DB_LOC
+from ppcheck.engine import PpcheckEngine
 from ppcheck.models import Base
 from ppcheck.utils import remove_dir, remove_file
 
@@ -11,16 +10,16 @@ def create_database(engine: Engine):
     Base.metadata.create_all(bind=engine)
 
 
-def install(path: Path = DB_LOC):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    engine = create_engine(f"sqlite:///{path}")
+def install():
+    DB_LOC.parent.mkdir(parents=True, exist_ok=True)
+    engine = PpcheckEngine()
     create_database(engine)
     engine.dispose()
 
 
-def uninstall(path: Path = DB_LOC):
-    remove_file(path)
-    remove_dir(path.parent)
+def uninstall():
+    remove_file(DB_LOC)
+    remove_dir(DB_LOC.parent)
 
 
 if __name__ == "__main__":

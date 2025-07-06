@@ -1,11 +1,9 @@
 from argparse import OPTIONAL, ArgumentParser
 
 import pandas as pd
-from sqlalchemy import Engine, create_engine
-from sqlalchemy.orm import Session, sessionmaker
 
 from ppcheck.api import ApiManager
-from ppcheck.constants import DB_LOC
+from ppcheck.engine import PpcheckEngine
 from ppcheck.extractor import CsvExtractor
 from ppcheck.install import install, uninstall
 from ppcheck.models import Account
@@ -13,8 +11,7 @@ from ppcheck.models import Account
 
 class PwnedPasswordChecker:
     def __init__(self):
-        self.engine: Engine = create_engine(f"sqlite:///{DB_LOC}")
-        self.session: Session = sessionmaker(bind=self.engine)()
+        self.engine = PpcheckEngine()
         self.parser = ArgumentParser(description="PwnedPasswordChecker CLI")
         self._add_arguments()
 
@@ -33,15 +30,17 @@ class PwnedPasswordChecker:
 
     def _extract(self, path: str) -> None:
         accounts = CsvExtractor(path).extract()
-        Account.add_to_database(session=self.session, accounts=accounts)
+        with self.engine.get_session() as session:
+            Account.add_to_database(session=session, accounts=accounts)
 
     def _check(self, check_type) -> None:
-        if check_type == "all":
-            accounts: pd.DataFrame = Account.get_all(session=self.session, as_dataframe=True)
-        elif check_type == "current":
-            accounts: pd.DataFrame = Account.get_all_current(session=self.session, as_dataframe=True)
-        else:
-            raise ValueError("Unexpected check type passed to --check")
+        with self.engine.get_session() as session:
+            if check_type == "all":
+                accounts: pd.DataFrame = Account.get_all(session=session, as_dataframe=True)
+            elif check_type == "current":
+                accounts: pd.DataFrame = Account.get_all_current(session=session, as_dataframe=True)
+            else:
+                raise ValueError("Unexpected check type passed to --check")
         api = ApiManager()
         accounts["num_pwned"] = accounts.apply(lambda row: api.get_password_results(row.hashed_password), axis=1)
         print(accounts)
