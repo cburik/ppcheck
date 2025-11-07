@@ -82,7 +82,7 @@ class PwnedPasswordChecker:
                 max_account_name_length = pwned_passwords["account_name"].str.len().max() + 2  # Adding 2 for padding
                 max_username_length = pwned_passwords["username"].str.len().max() + 2  # Adding 2 for padding
 
-                print(f"\n{'='*53} Latest Report {'='*53}")
+                print(f"\n{'=' * 53} Latest Report {'=' * 53}")
                 print(f"Date: {latest_report.run_date}")
                 print(f"Pwned Passwords Found: {latest_report.pwned_passwords}")
                 print(f"Check Type: {latest_report.check_type}")

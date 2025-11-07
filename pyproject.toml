@@ -26,7 +26,22 @@ ppcheck = "ppcheck.cli:main"
 [project.urls]
 Homepage = "https://github.com/cburik/ppcheck"
 
+[dependency-groups]
+dev = [
+    "isort>=7.0.0",
+    "mock>=5.2",
+    "mypy>=1.18",
+    "pre-commit>=4.0",
+    "pytest>=8.4.2",
+    "ruff>=0.14.4",
+]
+
 [tool.black]
 line-length = 120
 
-# TODO: Add more tools
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.ruff]
+line-length = 120
