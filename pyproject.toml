@@ -28,7 +28,6 @@ Homepage = "https://github.com/cburik/ppcheck"
 
 [dependency-groups]
 dev = [
-    "black>=25.0,<26.0",
     "isort>=7.0.0",
     "mock>=5.2",
     "mypy>=1.18",
