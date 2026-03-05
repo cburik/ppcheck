@@ -15,6 +15,7 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
+    "cryptography>=46.0.3",
     "pandas==2.3.*",
     "requests==2.31.*",
     "sqlalchemy==2.0.*",
@@ -35,9 +36,6 @@ dev = [
     "pytest>=8.4.2",
     "ruff>=0.14.4",
 ]
-
-[tool.black]
-line-length = 120
 
 [tool.isort]
 profile = "black"
