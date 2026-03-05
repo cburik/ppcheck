@@ -5,6 +5,7 @@ from typing import List, Optional, Union
 
 import pandas as pd
 from sqlalchemy import ForeignKey
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
 from typing_extensions import Self
 
@@ -18,14 +19,62 @@ class Account(Base):
     __tablename__ = "accounts"
 
     id: Mapped[int] = mapped_column(primary_key=True)
-    account_name: Mapped[str]
-    username: Mapped[Optional[str]]
-    url: Mapped[Optional[str]]
-    hashed_password: Mapped[str]
+    _account_name: Mapped[str]
+    _username: Mapped[Optional[str]]
+    _url: Mapped[Optional[str]]
+    _hashed_password: Mapped[str]
     record_hash: Mapped[str]
     record_start: Mapped[datetime] = mapped_column(default=datetime.now)
     record_end: Mapped[Optional[datetime]]
     is_current: Mapped[bool] = mapped_column(default=True)
+
+    @hybrid_property
+    def account_name(self) -> str:
+        return self._account_name
+
+    @account_name.setter
+    def account_name(self, value: str) -> None:
+        self._account_name = value
+
+    @account_name.expression
+    def account_name(cls) -> Mapped[str]:
+        return cls._account_name
+
+    @hybrid_property
+    def username(self) -> Optional[str]:
+        return self._username
+
+    @username.setter
+    def username(self, value: Optional[str]) -> None:
+        self._username = value
+
+    @username.expression
+    def username(cls) -> Mapped[Optional[str]]:
+        return cls._username
+
+    @hybrid_property
+    def url(self) -> Optional[str]:
+        return self._url
+
+    @url.setter
+    def url(self, value: Optional[str]) -> None:
+        self._url = value
+
+    @url.expression
+    def url(cls) -> Mapped[Optional[str]]:
+        return cls._url
+
+    @hybrid_property
+    def hashed_password(self) -> str:
+        return self._hashed_password
+
+    @hashed_password.setter
+    def hashed_password(self, value: str) -> None:
+        self._hashed_password = value
+
+    @hashed_password.expression
+    def hashed_password(cls) -> Mapped[str]:
+        return cls._hashed_password
 
     @classmethod
     def create_account(
