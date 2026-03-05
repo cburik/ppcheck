@@ -12,6 +12,7 @@ TMP_DB_LOC = "./tmp_database.db"
 @fixture(scope="session", autouse=True)
 def encryption_manager_with_test_password():
     manager = EncryptionManager()
+    manager._iterations = 10
     manager._password = b"test-password"
 
 

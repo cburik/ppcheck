@@ -11,6 +11,7 @@ from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 class EncryptionManager:
     _instance = None
     _password = None
+    _iterations = 200_000
 
     def __new__(cls):
         if cls._instance is None:
@@ -51,7 +52,7 @@ class EncryptionManager:
             algorithm=hashes.SHA256(),
             length=32,
             salt=salt,
-            iterations=50_000,  # TODO: encrease after developing (and set with env var for testing)
+            iterations=self._iterations,
         )
         key = base64.urlsafe_b64encode(kdf.derive(self._password))
         return Fernet(key)
