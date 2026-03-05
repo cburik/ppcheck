@@ -1,4 +1,5 @@
 from pathlib import Path
 
-DB_LOC = Path.home() / ".ppcheck" / "ppcheck.db"
+APP_HOME = Path.home() / ".ppcheck"
+DB_LOC = APP_HOME / "ppcheck.db"
 API_URL = "https://api.pwnedpasswords.com/range"
