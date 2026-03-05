@@ -29,6 +29,8 @@ Homepage = "https://github.com/cburik/ppcheck"
 
 [dependency-groups]
 dev = [
+    "ipykernel>=7.2.0",
+    "ipython>=8.38.0",
     "isort>=7.0.0",
     "mock>=5.2",
     "mypy>=1.18",
