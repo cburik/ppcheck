@@ -29,6 +29,11 @@ Extracting it will save hashes of your passwords (not the passwords themselves!)
 ppcheck --check
 ``
 
+Print the latest report
+``sh
+ppcheck --report
+``
+
 Will checks if any of the hashes of the extracted passwords are in the haveibeenpwned database.
 
 ``sh
@@ -37,14 +42,19 @@ ppcheck --uninstall
 
 Removes all local files. But doesn't remove the python package itself. Run `pip uninstall ppcheck` if you want to do that.
 
+Or run it all at once if you don't want to keep a local install
+``
+ppcheck --install --extract path/to/passwords.csv --check --report --uninstall
+``
+
 ## Contribute
 Honestly, not sure if I'll ever look at pull requests. I have a day job and other hobbies. Feel free to fork and do what you want with it (see [LICENSE](https://github.com/cburik/ppcheck/blob/main/LICENSE)).
 
 # Security
-There's not that much code, so you can check for yourself how it works.
+There's not that much code, so you can check for yourself how it works. Encryption is not part of my day job, so use at your own risk.
 
-ppcheck saves a hash of your passwords in your home directory, if that doesn't feel good to you, don't use the tool.
+ppcheck uses a password to save an encrypted copy of: the account names, usernames, urls and hashed passwords to your home directory.
 
-ppcheck sends the first 5 characters of your hashed passwords to the [haveibeenpwned API](https://haveibeenpwned.com/API/v2). If you're not comfortable with that, don't use the tool.
+So everything is saved locally, but ppcheck sends the first 5 characters of your hashed passwords to the [haveibeenpwned API](https://haveibeenpwned.com/API/v2). This is necessary to use the haveibeenpwned API. If you're not comfortable with that, don't use the tool.
 
 Also, see [LICENSE](https://github.com/cburik/ppcheck/blob/main/LICENSE).
