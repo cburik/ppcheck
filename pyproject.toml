@@ -43,6 +43,7 @@ dev = [
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:project.version"]
+push_options = ["--force-with-lease"]
 
 [tool.semantic_release.branches.main]
 match = "main"
