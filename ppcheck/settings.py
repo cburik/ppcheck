@@ -2,7 +2,6 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Optional
 
-from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -16,13 +15,16 @@ class Settings(BaseSettings):
     )
 
     # app settings
-    app_home: Path = Field(default=Path.home() / ".ppcheck", description="Application home directory")
-    db_loc: Path = Field(default=Path.home() / ".ppcheck" / "ppcheck.db", description="Database file location")
-    api_url: str = Field(default="https://api.pwnedpasswords.com/range", description="HIBP API URL")
+    app_home: Path = Path.home() / ".ppcheck"
+    db_loc: Path = Path.home() / ".ppcheck" / "ppcheck.db"
+    api_url: str = "https://api.pwnedpasswords.com/range"
 
     # Encryption settings
-    pbkdf2_iterations: int = Field(default=200_000, description="PBKDF2 KDF iterations")
-    master_password: Optional[str] = Field(default=None, description="Master password for encryption")
+    field_iterations: int = 200_000
+    master_iterations: int = 2_000_000
+    master_password: Optional[str] = None
+    master_salt_loc: Path = Path.home() / ".ppcheck" / "salt.bin"
+    magic_string: str = "it's magic"
 
 
 @lru_cache(maxsize=1)
