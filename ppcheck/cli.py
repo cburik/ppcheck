@@ -1,7 +1,6 @@
 from argparse import OPTIONAL, ArgumentParser
 
 import pandas as pd
-from sqlalchemy import select
 
 from ppcheck.api import ApiManager
 from ppcheck.engine import PpcheckEngine
@@ -68,19 +67,24 @@ class PwnedPasswordChecker:
         with self.engine.get_session() as session:
             latest_report = Report.get_latest(session=session)
             if latest_report:
-                select_stmt = (
-                    select(Account.account_name, Account.username, Account.url)
-                    .select_from(PwnedPassword)
-                    .where(PwnedPassword.report_id == latest_report.id)
-                    .join(Account, PwnedPassword.account_id == Account.id)
+                pwned_accounts = (
+                    session.query(Account)
+                    .join(PwnedPassword, PwnedPassword.account_id == Account.id)
+                    .filter(PwnedPassword.report_id == latest_report.id)
+                    .all()
                 )
-                pwned_passwords = pd.read_sql(select_stmt, session.bind)
+                pwned_passwords = pd.DataFrame.from_records(
+                    [
+                        {"account_name": account.account_name, "username": account.username, "url": account.url}
+                        for account in pwned_accounts
+                    ]
+                )
                 if pwned_passwords.empty:
                     print("No pwned passwords found in the latest report.")
                     return
 
-                max_account_name_length = pwned_passwords["account_name"].str.len().max() + 2  # Adding 2 for padding
-                max_username_length = pwned_passwords["username"].str.len().max() + 2  # Adding 2 for padding
+                max_account_name_length = pwned_passwords["account_name"].fillna("").str.len().max() + 2
+                max_username_length = pwned_passwords["username"].fillna("").str.len().max() + 2
 
                 print(f"\n{'=' * 53} Latest Report {'=' * 53}")
                 print(f"Date: {latest_report.run_date}")

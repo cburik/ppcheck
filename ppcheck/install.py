@@ -1,8 +1,8 @@
 from sqlalchemy import Engine
 
-from ppcheck.constants import DB_LOC
 from ppcheck.engine import PpcheckEngine
 from ppcheck.models import Base
+from ppcheck.settings import get_settings
 from ppcheck.utils import remove_dir, remove_file
 
 
@@ -11,14 +11,16 @@ def create_database(engine: Engine):
 
 
 def install():
-    DB_LOC.parent.mkdir(parents=True, exist_ok=True)
+    settings = get_settings()
+    settings.app_home.mkdir(parents=True, exist_ok=True)
     ppcheck_engine = PpcheckEngine()
     create_database(ppcheck_engine.engine)
 
 
 def uninstall():
-    remove_file(DB_LOC)
-    remove_dir(DB_LOC.parent)
+    settings = get_settings()
+    remove_file(settings.db_loc)
+    remove_dir(settings.app_home)
 
 
 if __name__ == "__main__":
