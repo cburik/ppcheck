@@ -43,10 +43,12 @@ dev = [
 
 [tool.semantic_release]
 version_toml = ["pyproject.toml:project.version"]
+branch = ['main']
 
-[tool.isort]
-profile = "black"
-line_length = 120
+[tool.semantic_release.branches.alpha]
+match = "alpha"
+prerelease = true
+prerelease_token = "alpha"
 
 [tool.ruff]
 line-length = 120
