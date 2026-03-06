@@ -14,7 +14,7 @@ class PwnedPasswordChecker:
     def __init__(self):
         self.engine = PpcheckEngine()
         self.parser = ArgumentParser(description="PwnedPasswordChecker CLI")
-        MasterPasswordManager().get_master_password()
+        MasterPasswordManager().get_password()
         self._add_arguments()
 
     def _add_arguments(self):
