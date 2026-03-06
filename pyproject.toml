@@ -17,6 +17,7 @@ classifiers = [
 dependencies = [
     "cryptography>=46.0.3",
     "pandas==2.3.*",
+    "pydantic-settings>=2.13.1",
     "requests==2.31.*",
     "sqlalchemy==2.0.*",
 ]

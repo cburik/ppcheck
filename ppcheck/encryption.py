@@ -7,11 +7,12 @@ from cryptography.fernet import Fernet, InvalidToken
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
+from ppcheck.settings import get_settings
+
 
 class EncryptionManager:
     _instance = None
     _password = None
-    _iterations = 200_000
 
     def __new__(cls):
         if cls._instance is None:
@@ -44,15 +45,20 @@ class EncryptionManager:
         return self.decrypt(data, salt).decode()
 
     def _get_password(self) -> None:
-        self._password = getpass.getpass("Enter encryption password: ").encode()
+        settings = get_settings()
+        if settings.master_password:
+            self._password = settings.master_password.encode()
+        else:
+            self._password = getpass.getpass("Enter encryption password: ").encode()
 
     @lru_cache(maxsize=1024)
     def _initialize_fernet(self, salt):
+        settings = get_settings()
         kdf = PBKDF2HMAC(
             algorithm=hashes.SHA256(),
             length=32,
             salt=salt,
-            iterations=self._iterations,
+            iterations=settings.pbkdf2_iterations,
         )
         key = base64.urlsafe_b64encode(kdf.derive(self._password))
         return Fernet(key)

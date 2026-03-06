@@ -1,7 +1,7 @@
 from sqlalchemy import Engine, create_engine
 from sqlalchemy.orm import sessionmaker
 
-from ppcheck.constants import DB_LOC
+from ppcheck.settings import get_settings
 
 
 class PpcheckEngine:
@@ -10,8 +10,9 @@ class PpcheckEngine:
 
     def __new__(cls):
         if cls._instance is None:
+            settings = get_settings()
             cls._instance = super(PpcheckEngine, cls).__new__(cls)
-            cls._engine = create_engine(f"sqlite:///{DB_LOC}")
+            cls._engine = create_engine(f"sqlite:///{settings.db_loc}")
         return cls._instance
 
     @property

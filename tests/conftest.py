@@ -4,6 +4,7 @@ from sqlalchemy.orm import Session
 
 from ppcheck.encryption import EncryptionManager
 from ppcheck.install import create_database
+from ppcheck.settings import get_settings
 from ppcheck.utils import remove_file
 
 TMP_DB_LOC = "./tmp_database.db"
@@ -11,9 +12,19 @@ TMP_DB_LOC = "./tmp_database.db"
 
 @fixture(scope="session", autouse=True)
 def encryption_manager_with_test_password():
+    # Set test environment variables for fast encryption in tests
+    settings = get_settings()
+    settings.pbkdf2_iterations = 1
+    settings.master_password = "testpassword"
+
+    # Initialize manager to use test settings
     manager = EncryptionManager()
-    manager._iterations = 10
-    manager._password = b"test-password"
+    yield manager
+
+    # Cleanup
+    manager._password = None
+    manager._initialize_fernet.cache_clear()
+    get_settings.cache_clear()
 
 
 @fixture
