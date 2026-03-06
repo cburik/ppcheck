@@ -1,3 +1,6 @@
+from importlib.metadata import version
+
 from ppcheck.cli import PwnedPasswordChecker
 
-__all__ = [PwnedPasswordChecker]  # TODO: Check if this is the way it works
+__version__ = version("ppcheck")
+__all__ = ["PwnedPasswordChecker", "__version__"]
