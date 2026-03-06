@@ -3,6 +3,7 @@ from argparse import OPTIONAL, ArgumentParser
 import pandas as pd
 
 from ppcheck.api import ApiManager
+from ppcheck.encryption import MasterPasswordManager
 from ppcheck.engine import PpcheckEngine
 from ppcheck.extractor import CsvExtractor
 from ppcheck.install import install, uninstall
@@ -13,6 +14,7 @@ class PwnedPasswordChecker:
     def __init__(self):
         self.engine = PpcheckEngine()
         self.parser = ArgumentParser(description="PwnedPasswordChecker CLI")
+        MasterPasswordManager().get_master_password()
         self._add_arguments()
 
     def _add_arguments(self):
@@ -32,8 +34,6 @@ class PwnedPasswordChecker:
             action="store_true",
             help="Generate a report of the latest pwned passwords found in the database",
         )
-        # TODO: add column order as an argument
-        # TODO: add output file as an argument
 
     def _extract(self, path: str) -> None:
         accounts = CsvExtractor(path).extract()

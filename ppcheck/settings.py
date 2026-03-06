@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     master_password: Optional[str] = None
     master_salt_loc: Path = Path.home() / ".ppcheck" / "salt.bin"
     magic_string: str = "it's magic"
+    magic_file: Path = Path.home() / ".ppcheck" / "magic.bin"
 
 
 @lru_cache(maxsize=1)
