@@ -83,8 +83,10 @@ class PwnedPasswordChecker:
                     print("No pwned passwords found in the latest report.")
                     return
 
-                max_account_name_length = pwned_passwords["account_name"].fillna("").str.len().max() + 2
-                max_username_length = pwned_passwords["username"].fillna("").str.len().max() + 2
+                pwned_passwords = pwned_passwords.fillna("")
+
+                max_account_name_length = pwned_passwords["account_name"].str.len().max() + 2
+                max_username_length = pwned_passwords["username"].str.len().max() + 2
 
                 print(f"\n{'=' * 53} Latest Report {'=' * 53}")
                 print(f"Date: {latest_report.run_date}")
