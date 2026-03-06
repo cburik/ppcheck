@@ -14,7 +14,7 @@ TMP_DB_LOC = "./tmp_database.db"
 def encryption_manager_with_test_password():
     # Set test environment variables for fast encryption in tests
     settings = get_settings()
-    settings.pbkdf2_iterations = 1
+    settings.field_iterations = 1
     settings.master_password = "testpassword"
 
     # Initialize manager to use test settings
