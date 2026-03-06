@@ -5,28 +5,7 @@ on:
     types: [opened, reopened, synchronize]
 
 jobs:
-  pytest:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v5
-
-      - name: Set up Python
-        uses: actions/setup-python@v6
-        with:
-          python-version-file: "pyproject.toml"
-
-      - name: Install uv
-        uses: astral-sh/setup-uv@v6
-        with:
-          enable-cache: true
-
-      - name: Install the dependencies and project
-        run: uv sync --locked --all-extras --dev
-
-      - name: Unit tests
-        run: uv run pytest tests
-
-  pre-commit:
+  pre-commit-and-pytest:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -46,3 +25,24 @@ jobs:
 
       - name: Run Precommit
         uses: pre-commit/action@v3.0.0
+
+      - name: Unit tests
+        run: uv run pytest tests
+
+  test-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: "pyproject.toml"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+
+      - name: Build the project
+        run: uv build .

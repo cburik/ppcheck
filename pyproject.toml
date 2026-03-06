@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools", "setuptools-scm"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
 
 [tool.setuptools.packages.find]
 include = ["ppcheck"]
@@ -37,12 +37,18 @@ dev = [
     "mypy>=1.18",
     "pre-commit>=4.0",
     "pytest>=8.4.2",
+    "python-semantic-release>=10.5.3",
     "ruff>=0.14.4",
 ]
 
-[tool.isort]
-profile = "black"
-line_length = 120
+[tool.semantic_release]
+version_toml = ["pyproject.toml:project.version"]
+branch = ['main']
+
+[tool.semantic_release.branches.alpha]
+match = "alpha"
+prerelease = true
+prerelease_token = "alpha"
 
 [tool.ruff]
 line-length = 120
